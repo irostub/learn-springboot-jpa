@@ -3,6 +3,8 @@ package com.irostub.learnspringbootjpa.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SequenceGenerator(
         name = "MEMBER_SEQ_GENERATOR",
@@ -17,4 +19,10 @@ public class Member {
     private Long id;
 
     private String name;
+
+    @Embedded
+    private Address address;
+
+    @OneToMany(mappedBy = "member")
+    private List<Orders> orderList = new ArrayList<>();
 }
