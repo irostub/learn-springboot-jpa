@@ -2,24 +2,33 @@ package com.irostub.learnspringbootjpa.repository;
 
 import com.irostub.learnspringbootjpa.domain.Member;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class MemberRepository {
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
-    public Long save(Member member) {
+    public void save(Member member) {
         em.persist(member);
-        return member.getId();
     }
 
-    public Member find(Long id) {
+    public Member findOne(Long id) {
         return em.find(Member.class, id);
+    }
+
+    public List<Member> findAll() {
+        String query = "select m from Member m";
+        return em.createQuery(query, Member.class).getResultList();
+    }
+
+    public List<Member> findByName(String name) {
+        String query = "select m from Member m where m.name=:name";
+        return em.createQuery(query, Member.class)
+                .setParameter("name", name)
+                .getResultList();
     }
 }

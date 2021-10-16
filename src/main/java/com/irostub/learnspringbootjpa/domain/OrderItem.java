@@ -17,16 +17,11 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Orders orders;
+    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Item item;
 
     private Integer orderPrice;
     private Integer count;
-
-    public void setOrders(Orders orders){
-        this.orders = orders;
-        orders.getOrderItems().add(this);
-    }
 }

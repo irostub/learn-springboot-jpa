@@ -14,7 +14,8 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Entity
-public class Orders {
+@Table(name="orders")
+public class Order {
     @Setter(AccessLevel.PRIVATE)
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDER_SEQ_GENERATOR")
     private Long id;
@@ -22,10 +23,10 @@ public class Orders {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Delivery delivery;
 
     private LocalDateTime orderDate;
@@ -35,6 +36,16 @@ public class Orders {
 
     public void setMember(Member member) {
         this.member = member;
-        member.getOrderList().add(this);
+        member.getOrders().add(this);
+    }
+
+    public void addOrderItems(OrderItem orderItem) {
+        this.getOrderItems().add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.setDelivery(delivery);
+        delivery.setOrder(this);
     }
 }

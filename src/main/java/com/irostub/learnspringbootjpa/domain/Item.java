@@ -23,6 +23,11 @@ public abstract class Item {
     private Integer price;
     private Integer stockQuantity;
 
-    @OneToMany(mappedBy = "item")
-    private List<ItemCategory> itemCategories = new ArrayList<>();
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<CategoryItem> categoryItems = new ArrayList<>();
+
+    public void addCategoryItems(CategoryItem categoryItem) {
+        this.getCategoryItems().add(categoryItem);
+        categoryItem.setItem(this);
+    }
 }

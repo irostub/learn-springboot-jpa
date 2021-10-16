@@ -20,11 +20,21 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
-    private List<ItemCategory> itemCategories = new ArrayList<>();
+    private List<CategoryItem> categoryItems = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
     private List<Category> child = new ArrayList<>();
+
+    public void addCategoryItems(CategoryItem categoryItem) {
+        this.getCategoryItems().add(categoryItem);
+        categoryItem.setCategory(this);
+    }
+
+    public void addChild(Category category) {
+        this.getChild().add(category);
+        category.setParent(this);
+    }
 }
