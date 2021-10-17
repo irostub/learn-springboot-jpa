@@ -1,6 +1,7 @@
 package com.irostub.learnspringbootjpa.domain.item;
 
 import com.irostub.learnspringbootjpa.domain.CategoryItem;
+import com.irostub.learnspringbootjpa.excption.NotEnoughStockException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,7 +34,11 @@ public abstract class Item {
     }
 
     public void removeStock(Integer count){
-        this.stockQuantity -= count;
+        int result = this.stockQuantity - count;
+        if (result < 0) {
+            throw new NotEnoughStockException();
+        }
+        this.stockQuantity = result;
     }
 
     public void addStock(Integer count) {
