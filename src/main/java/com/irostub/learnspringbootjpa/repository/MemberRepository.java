@@ -1,16 +1,16 @@
 package com.irostub.learnspringbootjpa.repository;
 
 import com.irostub.learnspringbootjpa.domain.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Repository
 public class MemberRepository {
-    @PersistenceContext
-    private EntityManager em;
+    private final EntityManager em;
 
     public void save(Member member) {
         em.persist(member);
