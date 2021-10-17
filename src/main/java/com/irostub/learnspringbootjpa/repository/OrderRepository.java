@@ -12,9 +12,8 @@ public class OrderRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Long save(Order order) {
+    public void save(Order order) {
         em.persist(order);
-        return order.getId();
     }
 
     public Order findOne(Long orderId) {

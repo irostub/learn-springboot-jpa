@@ -1,5 +1,6 @@
 package com.irostub.learnspringbootjpa.domain;
 
+import com.irostub.learnspringbootjpa.domain.item.Item;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,4 +25,23 @@ public class OrderItem {
 
     private Integer orderPrice;
     private Integer count;
+
+    //주문 상품 생성
+    public static OrderItem createOrderItem(Item item, Integer orderPrice, Integer count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);
+        return orderItem;
+    }
+
+    public void cancel() {
+        this.getItem().addStock(this.count);
+    }
+
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
+    }
 }

@@ -1,4 +1,4 @@
-package com.irostub.learnspringbootjpa.domain;
+package com.irostub.learnspringbootjpa.domain.item;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Entity
-public class Book extends Item{
-    private String author;
-    private String isbn;
+public class Album extends Item{
+    private String artist;
+    private String etc;
 }

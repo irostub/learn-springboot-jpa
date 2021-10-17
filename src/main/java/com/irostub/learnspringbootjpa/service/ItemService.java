@@ -1,6 +1,6 @@
 package com.irostub.learnspringbootjpa.service;
 
-import com.irostub.learnspringbootjpa.domain.Item;
+import com.irostub.learnspringbootjpa.domain.item.Item;
 import com.irostub.learnspringbootjpa.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

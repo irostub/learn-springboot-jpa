@@ -1,7 +1,7 @@
 package com.irostub.learnspringbootjpa.service;
 
-import com.irostub.learnspringbootjpa.domain.Album;
-import com.irostub.learnspringbootjpa.domain.Item;
+import com.irostub.learnspringbootjpa.domain.item.Album;
+import com.irostub.learnspringbootjpa.domain.item.Item;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,14 +1,11 @@
 package com.irostub.learnspringbootjpa.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
 @Getter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED) @AllArgsConstructor
 @EqualsAndHashCode
 @Embeddable
 public class Address {

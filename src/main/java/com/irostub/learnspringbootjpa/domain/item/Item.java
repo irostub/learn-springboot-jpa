@@ -1,5 +1,6 @@
-package com.irostub.learnspringbootjpa.domain;
+package com.irostub.learnspringbootjpa.domain.item;
 
+import com.irostub.learnspringbootjpa.domain.CategoryItem;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,5 +30,13 @@ public abstract class Item {
     public void addCategoryItems(CategoryItem categoryItem) {
         this.getCategoryItems().add(categoryItem);
         categoryItem.setItem(this);
+    }
+
+    public void removeStock(Integer count){
+        this.stockQuantity -= count;
+    }
+
+    public void addStock(Integer count) {
+        this.stockQuantity += count;
     }
 }

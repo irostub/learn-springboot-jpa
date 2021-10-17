@@ -1,5 +1,6 @@
 package com.irostub.learnspringbootjpa.domain;
 
+import com.irostub.learnspringbootjpa.domain.item.Item;
 import lombok.*;
 
 import javax.persistence.*;

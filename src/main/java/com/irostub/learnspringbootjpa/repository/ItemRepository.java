@@ -1,6 +1,6 @@
 package com.irostub.learnspringbootjpa.repository;
 
-import com.irostub.learnspringbootjpa.domain.Item;
+import com.irostub.learnspringbootjpa.domain.item.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
