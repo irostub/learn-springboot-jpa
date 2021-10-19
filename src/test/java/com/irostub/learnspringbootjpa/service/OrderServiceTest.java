@@ -1,74 +1,99 @@
 package com.irostub.learnspringbootjpa.service;
 
-import com.irostub.learnspringbootjpa.domain.Address;
-import com.irostub.learnspringbootjpa.domain.Member;
+import com.irostub.learnspringbootjpa.domain.*;
 import com.irostub.learnspringbootjpa.domain.item.Book;
 import com.irostub.learnspringbootjpa.domain.item.Item;
+import com.irostub.learnspringbootjpa.excption.NotEnoughStockException;
 import com.irostub.learnspringbootjpa.repository.ItemRepository;
 import com.irostub.learnspringbootjpa.repository.MemberRepository;
-import org.aspectj.weaver.ast.Or;
+import com.irostub.learnspringbootjpa.repository.OrderRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
+
+
+@ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
 
-    @Autowired
-    OrderService orderService;
-
-    @Autowired
+    @Mock
     MemberRepository memberRepository;
 
-    @Autowired
+    @Mock
     ItemRepository itemRepository;
 
+    @Mock
+    OrderRepository orderRepository;
+
+    @InjectMocks
+    OrderService orderService;
 
     @Test
     @DisplayName("주문 성공")
-    @Transactional
     void order() {
-        //give
-        Member member = new Member();
-        member.setName("irostub");
-        member.setAddress(new Address("seoul", "street", "10000"));
+        //given
+        Member member = createMember();
+        Item item = createItem();
 
-        Book book = new Book();
-        book.setName("Steins; Gate");
-        book.setPrice(1975);
-        book.setStockQuantity(2010);
-        book.setAuthor("5pb.");
-        book.setIsbn("IBM5100");
-
-        memberRepository.save(member);
-        itemRepository.save(book);
+        given(memberRepository.findOne(1L))
+                .willReturn(member);
+        given(itemRepository.findOne(1L))
+                .willReturn(item);
 
         //when
-        Long orderId = orderService.order(member.getId(), book.getId(), 100);
+        orderService.order(1L, 1L, 100);
 
         //then
-        assertNotNull(orderId);
+        ArgumentCaptor<Order> captor = ArgumentCaptor.forClass(Order.class);
+        then(orderRepository).should(times(1)).save(captor.capture());
     }
 
     @Test
     @DisplayName("주문 실패 - 재고 수량 부족")
-    void orderFail() {
+    void orderFail(){
+        //given
+        Member member = createMember();
+        Item item = createItem();
 
+        given(memberRepository.findOne(1L))
+                .willReturn(member);
+        given(itemRepository.findOne(1L))
+                .willReturn(item);
+
+        //when
+        Executable executable = () -> orderService.order(1L, 1L, 50000);
+
+        //then
+        assertThrows(NotEnoughStockException.class, executable);
     }
 
-    @Test
-    @DisplayName("주문 취소")
-    void cancelOrder() {
-
+    private Item createItem() {
+        return new Book(
+                1L,
+                "itemName",
+                15000,
+                2021,
+                new ArrayList<>(),
+                "5pg",
+                "isbn5100");
     }
 
-    @Test
-    @DisplayName("주문 취소 실패 - 배송 완료 상태tion")
-    void cancelOrderFail() {
-
+    private Member createMember() {
+        return new Member(
+                1L,
+                "irostub",
+                new Address("seoul", "street", "10000"),
+                new ArrayList<>());
     }
 }
