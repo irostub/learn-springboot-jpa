@@ -16,7 +16,6 @@ import java.util.List;
 @Entity
 @Table(name="orders")
 public class Order {
-    @Setter(AccessLevel.PRIVATE)
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDER_SEQ_GENERATOR")
     private Long id;
 
@@ -56,7 +55,7 @@ public class Order {
         order.setMember(member);
         order.setDelivery(delivery);
         for (OrderItem orderItem : orderItems) {
-            order.getOrderItems().add(orderItem);
+            order.addOrderItems(orderItem);
         }
         order.setStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());

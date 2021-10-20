@@ -13,7 +13,6 @@ import javax.persistence.*;
 @NoArgsConstructor @AllArgsConstructor
 @Entity
 public class OrderItem {
-    @Setter(AccessLevel.PRIVATE)
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDER_ITEM_SEQ_GENERATOR")
     private Long id;
 

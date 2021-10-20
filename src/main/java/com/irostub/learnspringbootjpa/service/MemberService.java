@@ -1,7 +1,7 @@
 package com.irostub.learnspringbootjpa.service;
 
 import com.irostub.learnspringbootjpa.domain.Member;
-import com.irostub.learnspringbootjpa.dto.MemberDto;
+import com.irostub.learnspringbootjpa.controller.form.MemberForm;
 import com.irostub.learnspringbootjpa.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,14 +14,12 @@ import java.util.List;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-
     @Transactional
-    public Long join(MemberDto memberDto) {
-        validateDuplicateMember(memberDto);
-        Member member = new Member();
-        member.setName(memberDto.getName());
-        memberRepository.save(member);
-        return member.getId();
+    public Long join(String name, String city, String street, String zipcode) {
+        validateDuplicateMember(name);
+        Member newMember = Member.createNewMember(name, city, street, zipcode);
+        memberRepository.save(newMember);
+        return newMember.getId();
     }
 
     public List<Member> findMembers() {
@@ -32,8 +30,8 @@ public class MemberService {
         return memberRepository.findOne(memberId);
     }
 
-    private void validateDuplicateMember(MemberDto memberDto) {
-        List<Member> findMember = memberRepository.findByName(memberDto.getName());
+    private void validateDuplicateMember(String name) {
+        List<Member> findMember = memberRepository.findByName(name);
         if (!findMember.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다");
         }

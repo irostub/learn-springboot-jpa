@@ -1,6 +1,7 @@
 package com.irostub.learnspringbootjpa.service;
 
 import com.irostub.learnspringbootjpa.domain.item.Album;
+import com.irostub.learnspringbootjpa.domain.item.Book;
 import com.irostub.learnspringbootjpa.domain.item.Item;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,19 +24,37 @@ class ItemServiceTest {
     @Test
     @DisplayName("아이템 저장")
     void saveItem() {
-        Item item = new Album("irostub", "album");
-        Long saveItemId = itemService.saveItem(item);
+        Book book = Book.builder()
+                .name("irostub")
+                .price(10000)
+                .stockQuantity(1999)
+                .author("stub")
+                .isbn("10000")
+                .build();
+        Long saveItemId = itemService.saveItem(book.getName(),book.getPrice(),book.getStockQuantity(), book.getAuthor(), book.getIsbn());
         assertNotNull(saveItemId);
     }
 
     @Test
     @DisplayName("아이템 전체 조회")
     void findItems() {
-        Item item1 = new Album("irostub", "album");
-        itemService.saveItem(item1);
+        Book book = Book.builder()
+                .name("irostub")
+                .price(10000)
+                .stockQuantity(1999)
+                .author("stub")
+                .isbn("10000")
+                .build();
+        itemService.saveItem(book.getName(),book.getPrice(),book.getStockQuantity(), book.getAuthor(), book.getIsbn());
 
-        Item item2 = new Album("iro", "bumal");
-        itemService.saveItem(item2);
+        Book book2 = Book.builder()
+                .name("irostub2")
+                .price(1001)
+                .stockQuantity(194)
+                .author("stub2")
+                .isbn("10001")
+                .build();
+        itemService.saveItem(book2.getName(),book2.getPrice(),book2.getStockQuantity(), book2.getAuthor(), book2.getIsbn());
 
         List<Item> items = itemService.findItems();
 
@@ -45,8 +64,14 @@ class ItemServiceTest {
     @Test
     @DisplayName("아이템 단일 조회")
     void findOne() {
-        Item item1 = new Album("irostub", "album");
-        Long saveItemId = itemService.saveItem(item1);
+        Book book = Book.builder()
+                .name("irostub")
+                .price(10000)
+                .stockQuantity(1999)
+                .author("stub")
+                .isbn("10000")
+                .build();
+        Long saveItemId = itemService.saveItem(book.getName(), book.getPrice(), book.getStockQuantity(), book.getAuthor(), book.getIsbn());
 
         Item findItem = itemService.findOne(saveItemId);
 

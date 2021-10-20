@@ -1,5 +1,6 @@
 package com.irostub.learnspringbootjpa.service;
 
+import com.irostub.learnspringbootjpa.controller.form.OrderSearch;
 import com.irostub.learnspringbootjpa.domain.*;
 import com.irostub.learnspringbootjpa.domain.item.Item;
 import com.irostub.learnspringbootjpa.repository.ItemRepository;
@@ -8,6 +9,8 @@ import com.irostub.learnspringbootjpa.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -38,5 +41,9 @@ public class OrderService {
     public void cancelOrder(Long orderId) {
         Order findOrder = orderRepository.findOne(orderId);
         findOrder.cancel();
+    }
+
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findBySearchConditionWithCriteria(orderSearch);
     }
 }

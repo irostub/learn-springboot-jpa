@@ -10,8 +10,8 @@ import java.util.List;
         name = "MEMBER_SEQ_GENERATOR",
         sequenceName = "MEMBER_SEQ"
 )
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) @AllArgsConstructor
 @Entity
 public class Member {
     @Setter(AccessLevel.PRIVATE)
@@ -25,4 +25,11 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
+    public static Member createNewMember(String name, String city, String street, String zipcode) {
+        Member member = new Member();
+        member.name = name;
+        member.address = new Address(city, street, zipcode);
+        return member;
+    }
 }
