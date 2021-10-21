@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="header" th:fragment="bodyHeader">
+  <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+  <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <span th:text="${message}"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>
+  </ul>
+  <a href="/"><h3 class="text-muted">HELLO SHOP</h3></a>
+</div>
