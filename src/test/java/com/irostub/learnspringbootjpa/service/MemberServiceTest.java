@@ -1,7 +1,7 @@
 package com.irostub.learnspringbootjpa.service;
 
 import com.irostub.learnspringbootjpa.domain.Member;
-import com.irostub.learnspringbootjpa.dto.MemberDto;
+import com.irostub.learnspringbootjpa.controller.form.MemberForm;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,14 @@ class MemberServiceTest {
     @DisplayName("맴버 가입")
     void join() {
         //given
-        MemberDto memberDto = new MemberDto();
-        memberDto.setName("irostub");
+        MemberForm memberForm = new MemberForm();
+        memberForm.setName("irostub");
+        memberForm.setCity("city");
+        memberForm.setStreet("street");
+        memberForm.setZipcode("zipcode");
 
         //when
-        Long memberId = memberService.join(memberDto);
+        Long memberId = memberService.join(memberForm.getName(), memberForm.getCity(), memberForm.getStreet(), memberForm.getZipcode());
 
         //then
         assertNotNull(memberId);
@@ -37,29 +40,41 @@ class MemberServiceTest {
     @DisplayName("맴버 가입 실패(중복 회원)")
     void joinFail() {
         //given
-        MemberDto memberDto = new MemberDto();
-        memberDto.setName("irostub");
-        memberService.join(memberDto);
+        MemberForm memberForm = new MemberForm();
+        memberForm.setName("irostub");
+        memberForm.setCity("city");
+        memberForm.setStreet("street");
+        memberForm.setZipcode("zipcode");
+        memberService.join(memberForm.getName(), memberForm.getCity(), memberForm.getStreet(), memberForm.getZipcode());
 
         //when
-        MemberDto memberDto1 = new MemberDto();
-        memberDto1.setName("irostub");
+        MemberForm memberForm2 = new MemberForm();
+        memberForm2.setName("irostub");
+        memberForm2.setCity("city");
+        memberForm2.setStreet("street");
+        memberForm2.setZipcode("zipcode");
 
         //then
-        assertThrows(IllegalStateException.class,()->memberService.join(memberDto1));
+        assertThrows(IllegalStateException.class, () -> memberService.join(memberForm2.getName(), memberForm2.getCity(), memberForm2.getStreet(), memberForm2.getZipcode()));
     }
 
     @Test
     @DisplayName("맴버 전체 검색")
     void findMembers() {
         //given
-        MemberDto memberDto1 = new MemberDto();
-        memberDto1.setName("irostub");
-        MemberDto memberDto2 = new MemberDto();
-        memberDto2.setName("iro");
+        MemberForm memberForm1 = new MemberForm();
+        memberForm1.setName("irostub");
+        memberForm1.setCity("city");
+        memberForm1.setStreet("street");
+        memberForm1.setZipcode("zipcode");
+        MemberForm memberForm2 = new MemberForm();
+        memberForm2.setName("iro");
+        memberForm2.setCity("city");
+        memberForm2.setStreet("street");
+        memberForm2.setZipcode("zipcode");
 
-        memberService.join(memberDto1);
-        memberService.join(memberDto2);
+        memberService.join(memberForm1.getName(), memberForm1.getCity(), memberForm1.getStreet(), memberForm1.getZipcode());
+        memberService.join(memberForm2.getName(), memberForm2.getCity(), memberForm2.getStreet(), memberForm2.getZipcode());
 
         //when
         List<Member> members = memberService.findMembers();
@@ -71,9 +86,12 @@ class MemberServiceTest {
     @Test
     @DisplayName("맴버 단일 조회")
     void findOne() {
-        MemberDto memberDto1 = new MemberDto();
-        memberDto1.setName("irostub");
-        Long joinMemberId = memberService.join(memberDto1);
+        MemberForm memberForm1 = new MemberForm();
+        memberForm1.setName("irostub");
+        memberForm1.setCity("city");
+        memberForm1.setStreet("street");
+        memberForm1.setZipcode("zipcode");
+        Long joinMemberId = memberService.join(memberForm1.getName(), memberForm1.getCity(), memberForm1.getStreet(), memberForm1.getZipcode());
 
         Member findMember = memberService.findOne(joinMemberId);
         assertNotNull(findMember);
