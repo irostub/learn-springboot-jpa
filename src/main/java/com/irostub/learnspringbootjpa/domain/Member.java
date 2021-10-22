@@ -32,4 +32,8 @@ public class Member {
         member.address = new Address(city, street, zipcode);
         return member;
     }
+
+    public void changeMemberName(String name) {
+        this.name = name;
+    }
 }
