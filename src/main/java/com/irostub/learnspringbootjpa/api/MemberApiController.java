@@ -52,12 +52,12 @@ public class MemberApiController {
 
     @Data
     @AllArgsConstructor
-    static class Result<T> {
+    private static class Result<T> {
         private T data;
     }
 
     @Data
-    static class MemberDto {
+    private static class MemberDto {
         private String name;
 
         public MemberDto(String name) {
@@ -66,12 +66,12 @@ public class MemberApiController {
     }
 
     @Data
-    static class CreateMemberRequest {
+    private static class CreateMemberRequest {
         private String name;
     }
 
     @Data
-    static class CreateMemberResponse {
+    private static class CreateMemberResponse {
         private Long id;
 
         public CreateMemberResponse(Long id) {
@@ -80,12 +80,12 @@ public class MemberApiController {
     }
 
     @Data
-    static class UpdateMemberRequest {
+    private static class UpdateMemberRequest {
         private String name;
     }
 
     @Data
-    static class UpdateMemberResponse {
+    private static class UpdateMemberResponse {
         private Long id;
         private String name;
 
@@ -94,5 +94,4 @@ public class MemberApiController {
             this.name = name;
         }
     }
-
 }
