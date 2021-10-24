@@ -15,7 +15,7 @@ public class Hibernate5ModuleConfig {
         Hibernate5Module hibernate5Module = new Hibernate5Module();
         //아래는 hibernate5Module 의 옵션 중 한가지로, lazy load 상태의 프록시 객체를 무조건 조회하는 방식을 on 한 것
         //기본 전략은 lazy loading 상태의 모든 엔티티를 ignore 하도록 되어있다.
-//        hibernate5Module.configure(Hibernate5Module.Feature.FORCE_LAZY_LOADING, true);
+        hibernate5Module.configure(Hibernate5Module.Feature.FORCE_LAZY_LOADING, true);
         return hibernate5Module;
     }
 }
