@@ -1,5 +1,6 @@
 package com.irostub.learnspringbootjpa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.irostub.learnspringbootjpa.domain.item.Item;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class OrderItem {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDER_ITEM_SEQ_GENERATOR")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
