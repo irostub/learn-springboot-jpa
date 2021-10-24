@@ -30,6 +30,13 @@ public class OrderRepository {
         return em.createQuery(query, Order.class).getResultList();
     }
 
+    public List<Order> findAllWithMemberAndDelivery() {
+        String query = "select o from Order o" +
+                " join fetch o.member" +
+                " join fetch o.delivery";
+        return em.createQuery(query, Order.class).getResultList();
+    }
+
     //작성하다 정신놓을 뻔했다.
     public List<Order> findBySearchConditionWithStringType(OrderSearch orderSearch) {
         String query = "select o from Order o join Member m on o.member.id = m.id where m.name = :name";
