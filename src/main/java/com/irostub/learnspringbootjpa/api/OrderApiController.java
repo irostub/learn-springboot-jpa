@@ -6,6 +6,8 @@ import com.irostub.learnspringbootjpa.domain.OrderItem;
 import com.irostub.learnspringbootjpa.domain.OrderStatus;
 import com.irostub.learnspringbootjpa.repository.OrderRepository;
 import com.irostub.learnspringbootjpa.repository.order.query.OrderDirectQueryDto;
+import com.irostub.learnspringbootjpa.repository.order.query.OrderFlatDto;
+import com.irostub.learnspringbootjpa.repository.order.query.OrderItemDirectQueryDto;
 import com.irostub.learnspringbootjpa.repository.order.query.OrderSimpleQueryRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 import static org.hibernate.Hibernate.initialize;
 
 @RequiredArgsConstructor
@@ -67,6 +69,26 @@ public class OrderApiController {
     @GetMapping("/api/v4/orders")
     public List<OrderDirectQueryDto> ordersV4() {
         return orderSimpleQueryRepository.findAllWithAllRelationDirect();
+    }
+
+    @GetMapping("/api/v5/orders")
+    public List<OrderDirectQueryDto> ordersV5() {
+        return orderSimpleQueryRepository.findOrderItemByOrderId();
+    }
+
+    @GetMapping("/api/v6/orders")
+    public List<OrderDirectQueryDto> ordersV6(){
+        List<OrderFlatDto> flats = orderSimpleQueryRepository.findAllByDto_flat();
+        return flats.stream()
+                .collect(groupingBy(o -> new OrderDirectQueryDto(o.getOrderId(),
+                                o.getName(), o.getOrderDate(), o.getOrderStatus(), o.getAddress()),
+                        mapping(o -> new OrderItemDirectQueryDto(o.getOrderId(),
+                                o.getItemName(), o.getOrderPrice(), o.getCount()), toList())
+                )).entrySet().stream()
+                .map(e -> new OrderDirectQueryDto(e.getKey().getOrderId(),
+                        e.getKey().getName(), e.getKey().getOrderDate(), e.getKey().getOrderStatus(),
+                        e.getKey().getAddress(), e.getValue()))
+                .collect(toList());
     }
 
     @Data
