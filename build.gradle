@@ -26,6 +26,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-devtools'
 
+    //api 에서 엔티티를 그대로 반환할 때 생기는 순환참조를 해결하기 위해 추가된 라이브러리(사실상 엔티티를 그대로 반환하지 않으면 될뿐이다)
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
