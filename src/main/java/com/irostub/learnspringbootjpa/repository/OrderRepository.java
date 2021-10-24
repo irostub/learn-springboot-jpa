@@ -37,6 +37,28 @@ public class OrderRepository {
         return em.createQuery(query, Order.class).getResultList();
     }
 
+    //lazy loading 무시하고 한방 쿼리로 다 불러올 수 있다. 단,
+    //다 좋은데 ToMany 연관관계와 join fetch 를 하므로 페이징이 안된다.
+    public List<Order> findAllWithAllRelation() {
+        String query = "select o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d" +
+                " join fetch o.orderItems oi" +
+                " join fetch oi.item";
+        return em.createQuery(query, Order.class).setMaxResults(50).getResultList();
+    }
+
+    //그래서 BatchSize 를 적용하고 ToOne 관계만 join fetch 를 하고, ToMany 관계는 BatchSize 의 힘을 빌리는 것으로
+    //페이징을 적용한다.
+    public List<Order> findAllWithMemberAndDeliveryPaging(int pagingStart, int pagingEnd) {
+        String query = "select o from Order o" +
+                " join fetch o.member" +
+                " join fetch o.delivery";
+        return em.createQuery(query, Order.class)
+                .setFirstResult(pagingStart).setMaxResults(pagingEnd)
+                .getResultList();
+    }
+
     //작성하다 정신놓을 뻔했다.
     public List<Order> findBySearchConditionWithStringType(OrderSearch orderSearch) {
         String query = "select o from Order o join Member m on o.member.id = m.id where m.name = :name";
